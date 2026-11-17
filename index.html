@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Azam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/*
+VOICE: ceria tetapi kemas; bengkel editorial digital untuk murid Tahun 4 SJKC
+IDEA: meja editor; murid menyelamatkan ayat dengan pen merah
+PICTURE: maskot Kiki si kenyalang editor (SVG asli) dan animasi pembetulan ayat
+COLOUR and TYPE: teal utama, krim latar, jingga lembut penegasan; warna modul berbeza; Poppins + Nunito
+LAYOUT: satu halaman bagi setiap halaman Google Sites; kad bersudut bulat; bar kemajuan
+*/
+:root{--teal:#0c7a6f;--teal2:#0b6b62;--cream:#fdf8ee;--orange:#f39a4a;--ink:#1f2a37;--soft:#5d6878;--card:#fff;--line:#eadfcd;
+--mA:#1f6fc4;--mB:#b85d12;--mC:#7a45c9;--mZ:#c2385a;--ok:#15803d;--bad:#c62828;--sec:var(--teal);--fs:17px}
+body.hc{--cream:#000;--ink:#fff;--soft:#ffe066;--card:#111;--line:#fff}
+*{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
+html{scroll-padding-top:calc(var(--hh,0px) + 12px)}
+body{margin:0;background:var(--cream);color:var(--ink);font:var(--fs)/1.6 Nunito,'Segoe UI',sans-serif;overflow-x:clip}
+h1,h2,h3,h4{font-family:Poppins,Nunito,sans-serif;line-height:1.15;margin:.2em 0 .45em;text-wrap:balance}
+h1{font-size:clamp(32px,5.4vw,52px);font-weight:800}
+h2{font-size:clamp(26px,3.6vw,38px);color:var(--sec);font-weight:800}
+h3{font-size:22px;font-weight:600}h4{font-size:18px;font-weight:600;margin-top:1em}
+p{margin:.4em 0 .8em}
+button,select,input,textarea{font:inherit;font-size:16px}
+button,.btn{cursor:pointer;min-height:44px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink);padding:9px 16px;font-weight:800;display:inline-flex;align-items:center;gap:8px;text-decoration:none;justify-content:center}
+.btn{background:var(--sec);border-color:var(--sec);color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.18)}
+.btn.alt{background:var(--orange);border-color:var(--orange);color:#1f2a37}
+.btn.ghost{background:transparent;color:var(--sec);border-color:var(--sec);box-shadow:none}
+.btn:active{transform:translateY(3px);box-shadow:none}
+:focus-visible{outline:4px solid #f5c542;outline-offset:2px}
+svg.i{width:20px;height:20px;flex:none}
+/* header */
+header{background:var(--teal2);color:#fff;position:sticky;top:0;z-index:30}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px max(3vw,10px)}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;color:#fff;text-decoration:none;font-family:Poppins;font-weight:800;font-size:18px}
+.brand svg{width:40px;height:40px}
+nav{display:flex;flex-wrap:wrap;gap:4px;order:3;flex-basis:100%}
+nav a{color:#fff;text-decoration:none;font-weight:800;font-size:14px;padding:8px 11px;border-radius:12px;min-height:44px;display:flex;align-items:center}
+nav a.on{background:#ffffff2e;box-shadow:inset 0 -3px 0 var(--orange)}
+.acc{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;order:2}
+.acc button{background:transparent;color:#fff;border-color:#ffffff66;font-size:14px;padding:6px 10px}
+body.solo header{position:static;background:transparent;color:var(--ink)}
+body.solo nav,body.solo .brand{display:none}
+body.solo .acc button{color:var(--ink);border-color:var(--line)}
+@media(max-width:760px){header{position:static}html{scroll-padding-top:12px}}
+main{max-width:1160px;margin:0 auto;padding:clamp(16px,3vw,36px) max(4vw,14px) 48px}
+section.page{display:none;animation:in .4s ease}section.page.show{display:block}
+@keyframes in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:clamp(16px,2.4vw,28px);margin:16px 0}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.g2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))}
+.label{font-size:14px;color:var(--soft);font-weight:800;margin:2px 0}
+.kick{display:inline-block;font-weight:800;font-size:14px;padding:3px 12px;border-radius:99px;background:color-mix(in srgb,var(--sec) 14%,transparent);color:var(--sec)}
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:24px;align-items:center;background:linear-gradient(135deg,var(--teal),#0f8a7e);color:#fff;border-radius:28px;padding:clamp(20px,4vw,44px);overflow:hidden;position:relative}
+.hero h1{color:#fff}.hero .slogan{font-family:Poppins;font-weight:600;font-size:clamp(19px,2.4vw,24px);color:#ffe2c4;margin:0 0 10px}
+.hero svg.m{width:100%;max-height:330px}
+.hero .chip{display:inline-block;background:#ffffff22;border:1.5px solid #ffffff66;border-radius:99px;padding:2px 12px;font-size:14px;font-weight:800;margin:0 4px 6px 0}
+@media(max-width:720px){.hero{grid-template-columns:1fr}.hero svg.m{max-height:220px}}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.skill{border-radius:20px;padding:18px;color:#fff;position:relative;overflow:hidden}
+.skill h3{color:#fff;margin:6px 0}
+.skill .big{font-family:Poppins;font-weight:800;font-size:44px;line-height:1;opacity:.9}
+.journey{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px;counter-reset:j}
+.journey a{display:block;text-decoration:none;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px;position:relative}
+.journey a b{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--orange);color:#1f2a37;font-family:Poppins;margin-bottom:6px}
+.journey a:hover{border-color:var(--teal)}
+.say{font-size:14px;padding:6px 12px;min-height:40px}
+.zh{display:inline-block;font-size:13px;background:#fff1dc;color:#8a4b0f;border-radius:8px;padding:0 7px;margin-left:6px;font-weight:700}
+.fig-cap{font-size:14px;color:var(--soft);text-align:center;font-weight:700;margin:6px 0 0}
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.tabs button{border-width:2px}
+.tabs button[aria-selected=true]{color:#fff}
+.tabs button[data-t=A][aria-selected=true]{background:var(--mA);border-color:var(--mA)}
+.tabs button[data-t=B][aria-selected=true]{background:var(--mB);border-color:var(--mB)}
+.tabs button[data-t=C][aria-selected=true]{background:var(--mC);border-color:var(--mC)}
+.mod{border-top:8px solid var(--mc)}
+.mod h3,.mod h4{color:var(--mc)}
+.num{flex:none;width:36px;height:36px;border-radius:50%;background:var(--mc,var(--sec));color:#fff;display:grid;place-items:center;font-weight:800;font-family:Poppins}
+.steps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));margin:8px 0}
+.steps div{display:flex;gap:10px;align-items:flex-start;background:var(--cream);border-radius:14px;padding:10px}
+.ba{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center;margin:8px 0}
+.ba .x,.ba .v{border-radius:14px;padding:10px 14px;font-weight:700}
+.ba .x{background:#fdecea;color:#8a1c1c;border:2px solid #f5b7b1}
+.ba .v{background:#e6f6ec;color:#11552d;border:2px solid #9fd9b3}
+.ba .arr{font-size:24px;font-weight:800;color:var(--soft)}
+.ba u{text-decoration-thickness:3px;text-decoration-color:currentColor}
+@media(max-width:560px){.ba{grid-template-columns:1fr}.ba .arr{transform:rotate(90deg);justify-self:center}}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{border:2px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--mc,var(--sec));color:#fff}
+.scroll{overflow-x:auto}
+/* player */
+.player{border:3px solid var(--mc);border-radius:20px;overflow:hidden;background:#fffdf8}
+.screen{min-height:190px;display:grid;place-items:center;padding:24px 16px;font-size:clamp(20px,3vw,28px);font-weight:800;text-align:center;font-family:Poppins;color:#1f2a37;position:relative}
+.screen .t{transition:.4s}
+.screen .hl{background:#ffe58f;border-radius:8px;padding:0 4px;box-shadow:0 0 0 3px #f5c542}
+.screen .st{color:#c62828;text-decoration:line-through;text-decoration-thickness:4px}
+.screen .nw{color:#15803d;display:inline-block;animation:pop .6s}
+.screen .tick{position:absolute;right:16px;top:12px;width:44px;height:44px;animation:pop .6s}
+.cap{background:var(--mc);color:#fff;padding:10px 14px;font-weight:700;min-height:48px}
+.ctrl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px;border-top:2px solid var(--line);background:var(--card)}
+.dots{display:flex;gap:6px;margin-left:auto}.dots i{width:12px;height:12px;border-radius:50%;background:var(--line)}.dots i.on{background:var(--mc)}
+@keyframes pop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+/* activities */
+.meter{height:14px;border-radius:99px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--orange);transition:width .5s}
+.sent{font-size:19px;line-height:2.2;padding:8px 14px;border-radius:14px;background:var(--cream);border:2px dashed var(--line);margin:10px 0}
+.w{cursor:pointer;padding:2px 3px;border-radius:7px;border-bottom:3px solid transparent}
+.w:hover{background:#ffe58f;color:#111}
+.w.fixed{background:#dcf5e3;color:#11552d;border-bottom-color:var(--ok)}
+.w.shown{background:#ffe9d2;color:#7a3d06;border-bottom-color:var(--orange)}
+.nope{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.picker{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0 10px;padding:10px;border-radius:14px;background:#efe9fb;color:#1f2a37}
+.fb{min-height:26px;font-weight:800;margin:6px 0}
+.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+body.hc .fb.ok{color:#5ee08a}body.hc .fb.bad{color:#ff8a80}
+.slot{min-width:50px;margin:0 4px;border-style:dashed;font-size:22px;padding:0 10px;min-height:42px}
+.slot.r{border-color:var(--ok);background:#dcf5e3;color:#11552d;border-style:solid}.slot.x{border-color:var(--bad);background:#fdecea;color:#8a1c1c;border-style:solid}
+.opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));margin:10px 0}
+.opts button{justify-content:flex-start;text-align:left;font-weight:700}
+.opts button.r{background:#dcf5e3;border-color:var(--ok);color:#11552d}.opts button.x{background:#fdecea;border-color:var(--bad);color:#8a1c1c}
+.act{border-left:8px solid var(--mZ)}
+.acthead{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.stars{font-size:24px;color:#d9d2c3;letter-spacing:2px}.stars b{color:#f2b01e}
+.scorebox{position:sticky;top:calc(var(--hh,0px) + 8px);z-index:5;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:10px 16px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center}
+@media(max-width:600px){.scorebox{grid-template-columns:1fr;position:static}}
+.why{font-size:15px;color:var(--soft);margin:2px 0 8px}
+/* quiz */
+.qhead{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;align-items:center}
+@media(max-width:520px){.qhead{grid-template-columns:76px minmax(0,1fr)}}
+.aspect{display:inline-block;color:#fff;font-weight:800;font-size:13px;border-radius:99px;padding:2px 10px}
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px}
+.res div{border-radius:16px;padding:12px;background:var(--cream);border:2px solid var(--line)}
+.res b{font-family:Poppins;font-size:26px;display:block}
+/* reflection */
+.chk{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:2px dashed var(--line)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}.seg button{font-size:14px;padding:6px 10px}
+.seg button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+textarea{width:100%;min-height:110px;padding:12px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink)}
+input[type=text]{padding:10px;border-radius:12px;border:2px solid var(--line);width:min(100%,360px);background:var(--card);color:var(--ink)}
+.cert{border:6px double var(--teal);border-radius:22px;padding:26px;text-align:center;background:#f2fbf9;color:#1f2a37;position:relative;overflow:hidden}
+.cert h3{color:var(--teal2)}
+.conf{position:absolute;width:10px;height:14px;top:-20px;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(420px) rotate(540deg);opacity:0}}
+.ref p{padding-left:2em;text-indent:-2em;margin:8px 0}
+footer{text-align:center;font-size:14px;color:var(--soft);padding:18px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="ic-sound" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></symbol>
+ <symbol id="ic-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></symbol>
+ <symbol id="ic-pause" viewBox="0 0 24 24"><path fill="currentColor" d="M6 5h4v14H6zm8 0h4v14h-4z"/></symbol>
+ <symbol id="ic-redo" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5V1L7 6l5 5V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></symbol>
+ <symbol id="ic-arrow" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4l-1.4 1.4 5.6 5.6H4v2h12.2l-5.6 5.6L12 20l8-8z"/></symbol>
+ <symbol id="ic-tick" viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#15803d"/><path d="M13 25l7 7 15-16" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+ <symbol id="logo" viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="16" fill="#f39a4a"/><rect x="14" y="16" width="30" height="36" rx="4" fill="#fff"/><g fill="#0f8a7e"><rect x="19" y="23" width="20" height="4" rx="2"/><rect x="19" y="31" width="16" height="4" rx="2"/><rect x="19" y="39" width="18" height="4" rx="2"/></g><g transform="rotate(35 46 30)"><rect x="42" y="10" width="9" height="34" rx="3" fill="#c62828"/><path d="M42 44l4.5 9 4.5-9z" fill="#ffe2a8"/></g></symbol>
+</svg>
+
+<header>
+ <div class="bar">
+  <a class="brand" href="#utama" data-go="utama"><svg><use href="#logo"/></svg>Azam</a>
+  <nav id="nav">
+   <a data-go="utama">Laman Utama</a>
+   <a data-go="misi">Kenali Misi Anda</a>
+   <a data-go="makmal">Makmal Pembelajaran</a>
+   <a data-go="zon">Zon Misi Interaktif</a>
+   <a data-go="cabaran">Cabaran Akhir</a>
+   <a data-go="refleksi">Refleksi dan Penghargaan</a>
+   <a data-go="sumber">Sumber dan Rujukan</a>
+  </nav>
+  <div class="acc" aria-label="Alat kebolehcapaian">
+   <button id="fsUp" aria-label="Besarkan tulisan">A+</button>
+   <button id="fsDn" aria-label="Kecilkan tulisan">A-</button>
+   <button id="hcBtn" aria-pressed="false">Kontras tinggi</button>
+  </div>
+ </div>
+</header>
+
+<main>
+<!-- ================= 1 LAMAN UTAMA ================= -->
+<section class="page" id="utama" data-c="teal">
+ <div class="hero">
+  <div>
+   <div class="row" style="gap:12px;margin-bottom:8px"><svg width="56" height="56"><use href="#logo"/></svg><span style="font-family:Poppins;font-weight:800;font-size:18px">AZAM</span></div>
+   <span class="chip">Bahasa Melayu SJKC Tahun 4</span><span class="chip">Kemahiran Menulis</span>
+   <h1>Editor Cilik: Misi Menyelamatkan Ayat</h1>
+   <p class="slogan">"Ayat Tepat, Penulisan Hebat!"</p>
+   <p>Selamat datang ke bengkel editorial digital! Di sini, kamu menjadi editor muda yang menyelamatkan ayat daripada kesalahan <b>ejaan</b>, <b>tanda baca</b> dan <b>imbuhan</b>.</p>
+   <div class="row">
+    <a class="btn alt" data-go="misi">MULA MISI <svg class="i"><use href="#ic-arrow"/></svg></a>
+    <a class="btn ghost" style="color:#fff;border-color:#fff" data-go="misi" data-anchor="objektif">OBJEKTIF PEMBELAJARAN</a>
+    <button class="say" style="background:transparent;color:#fff;border-color:#ffffff99" data-say="Selamat datang ke Bengkel Editor Cilik. Saya Kiki, ketua editor di sini. Jom kita selamatkan ayat daripada kesalahan ejaan, tanda baca dan imbuhan. Ayat tepat, penulisan hebat!"><svg class="i"><use href="#ic-sound"/></svg>Dengar Kiki</button>
+   </div>
+  </div>
+  <div class="mascot" data-mood="happy"></div>
+ </div>
+
+ <h3 style="margin-top:28px">Tiga kemahiran utama editor cilik</h3>
+ <div class="grid">
+  <div class="skill" style="background:var(--mA)"><div class="big">Ab</div><h3>Ejaan<span class="zh">拼写</span></h3><p>Menulis perkataan dengan susunan huruf yang betul.</p></div>
+  <div class="skill" style="background:var(--mB)"><div class="big">. , ? !</div><h3>Tanda Baca<span class="zh">标点符号</span></h3><p>Meletakkan noktah, koma, tanda soal dan tanda seru dengan tepat.</p></div>
+  <div class="skill" style="background:var(--mC)"><div class="big">me+</div><h3>Imbuhan<span class="zh">词缀</span></h3><p>Menambah awalan, akhiran dan apitan yang sesuai dengan ayat.</p></div>
+ </div>
+
+ <h3 style="margin-top:28px">Perjalanan pembelajaran kamu</h3>
+ <div class="journey">
+  <a data-go="misi"><b>1</b><strong>Kenali Misi</strong><br><span class="label">Fahami matlamat</span></a>
+  <a data-go="makmal"><b>2</b><strong>Makmal Pembelajaran</strong><br><span class="label">Belajar 3 modul</span></a>
+  <a data-go="zon"><b>3</b><strong>Zon Misi Interaktif</strong><br><span class="label">Selesaikan 4 aktiviti</span></a>
+  <a data-go="cabaran"><b>4</b><strong>Cabaran Akhir</strong><br><span class="label">Jawab 10 soalan</span></a>
+  <a data-go="refleksi"><b>5</b><strong>Refleksi</strong><br><span class="label">Terima sijil</span></a>
+ </div>
+ <p class="fig-cap">Rajah 1. Alur pembelajaran Bengkel Editor Cilik</p>
+</section>
+
+<!-- ================= 2 KENALI MISI ================= -->
+<section class="page" id="misi" data-c="teal">
+ <span class="kick">Halaman 2</span>
+ <h2>Kenali Misi Anda</h2>
+ <p>Sebelum memulakan misi, kenali dahulu apa yang akan kamu pelajari dan mengapa kemahiran ini penting.</p>
+ <div class="g2">
+  <div class="card">
+   <div class="label">Standard Kandungan</div><h3>3.3 Menghasilkan penulisan.</h3>
+   <div class="label">Standard Pembelajaran</div><h3 style="font-size:19px">3.3.2 Mengedit dan memurnikan ayat daripada aspek ejaan, tanda baca, dan penggunaan imbuhan.</h3>
+   <p class="label">Sumber: DSKP KSSR (Semakan 2017) Bahasa Melayu SJK Tahun 4 (Kementerian Pendidikan Malaysia, 2018)</p>
+  </div>
+  <div class="card" id="objektif">
+   <div class="label">Objektif pembelajaran</div><h3>Pada akhir pembelajaran, murid dapat:</h3>
+   <div class="steps" style="grid-template-columns:1fr">
+    <div><span class="num">1</span>Mengenal pasti kesalahan ejaan dalam ayat.</div>
+    <div><span class="num">2</span>Membetulkan penggunaan tanda baca yang tidak tepat.</div>
+    <div><span class="num">3</span>Mengenal pasti dan membetulkan penggunaan imbuhan yang salah.</div>
+    <div><span class="num">4</span>Mengedit dan memurnikan ayat menjadi ayat yang gramatis.</div>
+   </div>
+  </div>
+ </div>
+ <div class="card">
+  <h3>Mengapakah kita perlu mengedit dan memurnikan ayat?</h3>
+  <div class="g2" style="align-items:center">
+   <div>
+    <p>Setiap penulis, termasuk wartawan dan pengarang buku, menyemak tulisan mereka sebelum diterbitkan. Ayat yang mempunyai kesalahan boleh mengelirukan pembaca atau mengubah maksud.</p>
+    <p><b>Ayat yang dimurnikan</b> membantu kamu:</p>
+    <ul><li>menyampaikan maksud dengan jelas;</li><li>mendapat markah yang lebih baik dalam karangan dan latihan;</li><li>menulis mesej, kad ucapan dan notis dengan sopan dan tepat dalam kehidupan harian.</li></ul>
+    <button class="say" data-say="Mengapakah kita perlu mengedit ayat? Ayat yang mempunyai kesalahan boleh mengelirukan pembaca. Ayat yang dimurnikan menyampaikan maksud dengan jelas."><svg class="i"><use href="#ic-sound"/></svg>Dengar</button>
+   </div>
+   <div>
+    <div class="label">Lihat perbezaannya</div>
+    <div class="ba"><div class="x">kami <u>pegi</u> <u>kepasar</u> pada hari <u>sabtu</u></div><div class="arr">→</div><div class="v">Kami pergi ke pasar pada hari Sabtu.</div></div>
+    <p class="fig-cap">Rajah 2. Ayat sebelum dan selepas dimurnikan</p>
+   </div>
+  </div>
+ </div>
+ <div class="card">
+  <h3>Cara menggunakan bengkel ini</h3>
+  <div class="steps">
+   <div><span class="num">1</span>Ikut halaman mengikut susunan di menu atas.</div>
+   <div><span class="num">2</span>Tekan butang <b>Dengar</b> untuk mendengar penerangan.</div>
+   <div><span class="num">3</span>Guna <b>A+</b> untuk tulisan besar dan <b>Kontras tinggi</b> jika skrin sukar dibaca.</div>
+   <div><span class="num">4</span>Jangan risau jika salah. Baca maklum balas dan cuba lagi!</div>
+  </div>
+  <a class="btn" data-go="makmal">Masuk ke Makmal Pembelajaran <svg class="i"><use href="#ic-arrow"/></svg></a>
+ </div>
+</section>
+
+<!-- ================= 3 MAKMAL ================= -->
+<section class="page" id="makmal" data-c="teal">
+ <span class="kick">Halaman 3</span>
+ <h2>Makmal Pembelajaran</h2>
+ <p>Pelajari tiga modul secara berperingkat. Setiap modul mengandungi nota, contoh visual, langkah, animasi dan aktiviti pengukuhan.</p>
+ <div class="label">Kemajuan makmal: <span id="labTxt">0 daripada 3 modul selesai</span></div>
+ <div class="meter"><i id="labMeter"></i></div>
+ <div class="tabs" role="tablist" id="labTabs">
+  <button role="tab" data-t="A" aria-selected="true">Modul A: Detektif Ejaan</button>
+  <button role="tab" data-t="B" aria-selected="false">Modul B: Penjaga Tanda Baca</button>
+  <button role="tab" data-t="C" aria-selected="false">Modul C: Pakar Imbuhan</button>
+ </div>
+
+ <!-- MODUL A -->
+ <div class="card mod" id="modA" style="--mc:var(--mA)">
+  <h3>Modul A: Detektif Ejaan</h3>
+  <div class="g2">
+   <div>
+    <h4>Apakah ejaan?</h4>
+    <p><b>Ejaan</b> ialah cara menulis perkataan dengan susunan huruf yang betul mengikut sistem ejaan bahasa Melayu. Ejaan yang salah boleh mengubah maksud atau menjadikan ayat tidak baku.</p>
+    <h4>Kesalahan ejaan lazim</h4>
+    <ol>
+     <li><b>Ejaan tidak baku:</b> menulis seperti sebutan percakapan.</li>
+     <li><b>"di" dan "ke":</b> kata sendi nama yang menunjukkan tempat dieja <b>terpisah</b> (di sekolah, ke kantin), manakala awalan di- dieja <b>rapat</b> (dibaca, ditulis).</li>
+     <li><b>Huruf besar:</b> digunakan pada awal ayat dan nama khas (Ali, Kuching, Sabtu).</li>
+     <li><b>Kata ganda:</b> ditulis dengan tanda sempang (kanak-kanak, buku-buku).</li>
+    </ol>
+    <button class="say" data-say="Ejaan ialah cara menulis perkataan dengan susunan huruf yang betul. Kesalahan lazim ialah ejaan tidak baku, kesalahan di dan ke, huruf besar dan kata ganda."><svg class="i"><use href="#ic-sound"/></svg>Dengar nota</button>
+   </div>
+   <div>
+    <h4>Contoh visual: salah dan betul</h4>
+    <div class="ba"><div class="x">sayor</div><div class="arr">→</div><div class="v">sayur</div></div>
+    <div class="ba"><div class="x">pegi</div><div class="arr">→</div><div class="v">pergi</div></div>
+    <div class="ba"><div class="x">ambik</div><div class="arr">→</div><div class="v">ambil</div></div>
+    <div class="ba"><div class="x">disekolah</div><div class="arr">→</div><div class="v">di sekolah</div></div>
+    <div class="ba"><div class="x">di baca</div><div class="arr">→</div><div class="v">dibaca</div></div>
+    <div class="ba"><div class="x">budak budak</div><div class="arr">→</div><div class="v">budak-budak</div></div>
+    <p class="fig-cap">Rajah 3. Perbandingan ejaan salah dan betul</p>
+   </div>
+  </div>
+  <h4>Langkah demi langkah</h4>
+  <div class="steps">
+   <div><span class="num">1</span><span><b>Baca</b> ayat dengan perlahan.</span></div>
+   <div><span class="num">2</span><span><b>Bulatkan</b> perkataan yang meragukan.</span></div>
+   <div><span class="num">3</span><span><b>Betulkan</b> ejaan berpandukan nota atau kamus.</span></div>
+   <div><span class="num">4</span><span><b>Bina semula</b> ayat yang lengkap dan betul.</span></div>
+  </div>
+  <h4>Animasi: Bagaimana membetulkan ejaan</h4>
+  <div class="player" data-anim="A"></div>
+  <p class="fig-cap">Rajah 4. Animasi proses membetulkan ayat "Adik membeli sayor di pasar."</p>
+  <h4>Aktiviti pengukuhan</h4>
+  <div class="mini" data-mini="A"></div>
+  <div class="row" style="margin-top:10px"><button class="btn" data-next="B">Modul seterusnya: Penjaga Tanda Baca <svg class="i"><use href="#ic-arrow"/></svg></button></div>
+ </div>
+
+ <!-- MODUL B -->
+ <div class="card mod" id="modB" style="--mc:var(--mB)" hidden>
+  <h3>Modul B: Penjaga Tanda Baca</h3>
+  <h4>Apakah tanda baca?</h4>
+  <p><b>Tanda baca</b> ialah simbol dalam tulisan yang membantu pembaca memahami maksud ayat, mengetahui tempat berhenti dan mengenal jenis ayat.</p>
+  <div class="grid">
+   <div class="card" style="margin:0"><div class="big" style="font-size:46px;font-family:Poppins;color:var(--mB)">.</div><h4 style="margin-top:0">Noktah</h4><p>Di akhir ayat penyata dan ayat perintah.<br><i>Adik sedang membaca buku.</i></p></div>
+   <div class="card" style="margin:0"><div class="big" style="font-size:46px;font-family:Poppins;color:var(--mB)">,</div><h4 style="margin-top:0">Koma</h4><p>Selepas nama orang yang dipanggil dan selepas keterangan di awal ayat.<br><i>Mei Ling, mari kita pergi.</i><br><i>Selepas makan, kami mencuci pinggan.</i></p></div>
+   <div class="card" style="margin:0"><div class="big" style="font-size:46px;font-family:Poppins;color:var(--mB)">?</div><h4 style="margin-top:0">Tanda soal</h4><p>Di akhir ayat tanya.<br><i>Di manakah beg kamu?</i></p></div>
+   <div class="card" style="margin:0"><div class="big" style="font-size:46px;font-family:Poppins;color:var(--mB)">!</div><h4 style="margin-top:0">Tanda seru</h4><p>Di akhir ayat seruan yang menunjukkan perasaan.<br><i>Wah, cantiknya taman ini!</i></p></div>
+  </div>
+  <p class="fig-cap">Rajah 5. Fungsi empat tanda baca utama</p>
+  <h4>Contoh kesalahan dan pembetulan</h4>
+  <div class="ba"><div class="x">Di manakah rumah kamu<u>.</u></div><div class="arr">→</div><div class="v">Di manakah rumah kamu?</div></div>
+  <div class="ba"><div class="x">Ali tolong tutup pintu itu.</div><div class="arr">→</div><div class="v">Ali, tolong tutup pintu itu.</div></div>
+  <div class="ba"><div class="x">Wah cantiknya bunga itu<u>.</u></div><div class="arr">→</div><div class="v">Wah, cantiknya bunga itu!</div></div>
+  <div class="ba"><div class="x">Saya suka membaca buku cerita<u>?</u></div><div class="arr">→</div><div class="v">Saya suka membaca buku cerita.</div></div>
+  <button class="say" data-say="Tanda baca membantu pembaca memahami ayat. Noktah di akhir ayat penyata. Koma selepas nama orang yang dipanggil. Tanda soal di akhir ayat tanya. Tanda seru di akhir ayat seruan."><svg class="i"><use href="#ic-sound"/></svg>Dengar nota</button>
+  <h4>Langkah demi langkah</h4>
+  <div class="steps">
+   <div><span class="num">1</span><span>Kenal pasti <b>jenis ayat</b>: penyata, tanya, perintah atau seruan.</span></div>
+   <div><span class="num">2</span><span>Pilih <b>tanda baca akhir</b> yang sesuai.</span></div>
+   <div><span class="num">3</span><span>Semak keperluan <b>koma</b> di dalam ayat.</span></div>
+   <div><span class="num">4</span><span><b>Baca semula</b> ayat dengan intonasi yang betul.</span></div>
+  </div>
+  <h4>Animasi: Bagaimana membetulkan tanda baca</h4>
+  <div class="player" data-anim="B"></div>
+  <p class="fig-cap">Rajah 6. Animasi proses membetulkan ayat seruan</p>
+  <h4>Aktiviti pengukuhan</h4>
+  <div class="mini" data-mini="B"></div>
+  <div class="row" style="margin-top:10px"><button class="btn ghost" data-next="A">Kembali ke Modul A</button><button class="btn" data-next="C">Modul seterusnya: Pakar Imbuhan <svg class="i"><use href="#ic-arrow"/></svg></button></div>
+ </div>
+
+ <!-- MODUL C -->
+ <div class="card mod" id="modC" style="--mc:var(--mC)" hidden>
+  <h3>Modul C: Pakar Imbuhan</h3>
+  <h4>Apakah imbuhan?</h4>
+  <p><b>Imbuhan</b> ialah unsur yang ditambah pada kata dasar untuk membentuk perkataan baharu. Contohnya, kata dasar <b>baca</b> menjadi <b>membaca</b>, <b>dibaca</b> dan <b>bacaan</b>.</p>
+  <div class="grid">
+   <div class="card" style="margin:0"><h4 style="margin-top:0">Awalan</h4><p>Ditambah di <b>hadapan</b> kata dasar.</p><p>ber- : bermain<br>meN- : menulis<br>di- : disapu<br>ter- : tertidur<br>pe- : pemain</p></div>
+   <div class="card" style="margin:0"><h4 style="margin-top:0">Akhiran</h4><p>Ditambah di <b>belakang</b> kata dasar.</p><p>-kan : bersihkan, letakkan<br>-an : makanan, minuman</p></div>
+   <div class="card" style="margin:0"><h4 style="margin-top:0">Apitan</h4><p>Ditambah di <b>hadapan dan belakang</b> serentak.</p><p>ke-...-an : kebersihan<br>meN-...-kan : membersihkan<br>pe-...-an : pemandangan<br>ber-...-an : berpakaian</p></div>
+  </div>
+  <p class="fig-cap">Rajah 7. Tiga jenis imbuhan</p>
+  <h4>Mesin Awalan meN-</h4>
+  <p>Awalan meN- berubah bentuk mengikut huruf pertama kata dasar. Pilih kata dasar dan tekan <b>Proses</b>.</p>
+  <div class="row"><label class="label" for="kd">Kata dasar:</label><select id="kd" style="min-height:44px;border-radius:12px;padding:6px 10px"></select><button class="btn" id="proses" style="--sec:var(--mC)">Proses</button></div>
+  <div class="ba" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,120px),1fr));text-align:center;font-family:Poppins;font-size:24px">
+   <div class="v" id="mA" style="background:#f1eafc;color:#4b2a85;border-color:#cdb7f2">meN-</div><div class="arr">+</div><div class="v" id="mB" style="background:#fff;color:#1f2a37;border-color:var(--line)">...</div><div class="arr">=</div><div class="v" id="mC">...</div>
+  </div>
+  <p class="fb ok" id="mR" aria-live="polite"></p>
+  <div class="scroll" style="--mc:var(--mC)"><table>
+   <tr><th>Bentuk</th><th>Huruf awal kata dasar</th><th>Contoh</th></tr>
+   <tr><td>me-</td><td>l, m, n, r, w, y, ng, ny</td><td>melukis, merawat, menyanyi</td></tr>
+   <tr><td>mem-</td><td>b, f, p (p gugur)</td><td>membaca, memukul</td></tr>
+   <tr><td>men-</td><td>c, d, j, t (t gugur)</td><td>mencuci, mendengar, menulis</td></tr>
+   <tr><td>meng-</td><td>vokal, g, h, k (k gugur)</td><td>mengambil, menggosok, mengutip</td></tr>
+   <tr><td>meny-</td><td>s (s gugur)</td><td>menyapu, menyiram</td></tr>
+  </table></div>
+  <p class="fig-cap">Jadual 1. Bentuk awalan meN- (diadaptasi daripada Nik Safiah Karim et al., 2015)</p>
+  <h4>Kesalahan penggunaan imbuhan dan pembetulannya</h4>
+  <div class="ba"><div class="x">Pak Ali <u>mempotong</u> rumput.</div><div class="arr">→</div><div class="v">Pak Ali memotong rumput.</div></div>
+  <div class="ba"><div class="x">Mereka <u>main</u> bola di padang.</div><div class="arr">→</div><div class="v">Mereka bermain bola di padang.</div></div>
+  <div class="ba"><div class="x">Adik sedang <u>menbaca</u> buku.</div><div class="arr">→</div><div class="v">Adik sedang membaca buku.</div></div>
+  <div class="ba"><div class="x">Kita mesti menjaga <u>bersih</u> kelas.</div><div class="arr">→</div><div class="v">Kita mesti menjaga kebersihan kelas.</div></div>
+  <button class="say" data-say="Imbuhan ialah unsur yang ditambah pada kata dasar. Awalan di hadapan, akhiran di belakang, dan apitan di hadapan dan belakang. Contohnya, kebersihan. Awalan meN berubah bentuk. Huruf p, t, k dan s digugurkan."><svg class="i"><use href="#ic-sound"/></svg>Dengar nota</button>
+  <h4>Langkah demi langkah</h4>
+  <div class="steps">
+   <div><span class="num">1</span><span>Cari <b>kata dasar</b>.</span></div>
+   <div><span class="num">2</span><span>Fikirkan <b>konteks ayat</b>: siapa membuat apa?</span></div>
+   <div><span class="num">3</span><span>Pilih <b>imbuhan</b> dan semak bentuk meN-.</span></div>
+   <div><span class="num">4</span><span><b>Tulis semula</b> ayat dengan betul.</span></div>
+  </div>
+  <h4>Animasi: Bagaimana membetulkan imbuhan</h4>
+  <div class="player" data-anim="C"></div>
+  <p class="fig-cap">Rajah 8. Animasi proses membetulkan imbuhan meN-</p>
+  <h4>Aktiviti pengukuhan</h4>
+  <div class="mini" data-mini="C"></div>
+  <div class="row" style="margin-top:10px"><button class="btn ghost" data-next="B">Kembali ke Modul B</button><a class="btn" data-go="zon" style="--sec:var(--mZ)">Teruskan ke Zon Misi Interaktif <svg class="i"><use href="#ic-arrow"/></svg></a></div>
+ </div>
+</section>
+
+<!-- ================= 4 ZON MISI ================= -->
+<section class="page" id="zon" data-c="mZ">
+ <span class="kick">Halaman 4</span>
+ <h2>Zon Misi Interaktif</h2>
+ <p>Selesaikan empat misi. Setiap jawapan betul pada cubaan pertama memberi <b>1 mata</b>. Kumpul mata untuk naik tahap!</p>
+ <div class="scorebox"><div class="mascot" data-mood="normal" style="width:70px" id="zKiki"></div><div><div class="label">Jumlah mata: <span id="zTot">0</span> / <span id="zMax">0</span> · Tahap: <b id="zLvl">Editor Pelatih</b></div><div class="meter"><i id="zMeter"></i></div></div><div class="stars" id="zStars">★★★</div></div>
+
+ <div class="card act" id="act1">
+  <div class="acthead"><h3>Aktiviti 1: Kesan Kesalahan</h3><span class="stars" data-st="1">★★★</span></div>
+  <p class="why">Fokus: ejaan. Tekan perkataan yang salah, kemudian pilih ejaan yang betul.</p>
+  <div id="fix1"></div>
+ </div>
+ <div class="card act" id="act2">
+  <div class="acthead"><h3>Aktiviti 2: Susun dan Betulkan</h3><span class="stars" data-st="2">★★★</span></div>
+  <p class="why">Fokus: tanda baca. Tekan petak untuk memilih tanda baca yang sesuai, kemudian tekan <b>Semak</b>.</p>
+  <div id="tbBox"></div>
+  <div class="row"><button class="btn" id="tbCek" style="--sec:var(--mZ)">Semak</button><button id="tbReset">Cuba semula</button></div>
+  <p class="fb" id="tbFb" aria-live="polite"></p>
+ </div>
+ <div class="card act" id="act3">
+  <div class="acthead"><h3>Aktiviti 3: Misi Imbuhan</h3><span class="stars" data-st="3">★★★</span></div>
+  <p class="why">Fokus: imbuhan. Perkataan bergaris dalam setiap ayat menggunakan imbuhan yang salah. Pilih bentuk yang tepat.</p>
+  <div id="imbBox"></div>
+ </div>
+ <div class="card act" id="act4">
+  <div class="acthead"><h3>Aktiviti 4: Cabaran Editor Profesional</h3><span class="stars" data-st="4">★★★</span></div>
+  <p class="why">Fokus: gabungan ejaan, tanda baca dan imbuhan. Petikan ini mengandungi <b>lapan</b> kesalahan. Cari dan betulkan semuanya.</p>
+  <div id="fix4"></div>
+  <div id="murni" hidden class="card" style="background:#e6f6ec;color:#11552d;border-color:#9fd9b3"><b>Petikan yang telah dimurnikan:</b><br>Pada hari Ahad, Wei Jie sekeluarga pergi berkelah di pantai. Ayah membentang tikar di bawah pokok. Ibu memotong buah tembikai. Wei Jie dan adiknya bermain bola. "Wah, seronoknya!" kata Wei Jie. Mereka berasa sangat gembira.</div>
+ </div>
+ <div class="row"><a class="btn" data-go="cabaran" style="--sec:var(--teal)">Teruskan ke Cabaran Akhir <svg class="i"><use href="#ic-arrow"/></svg></a></div>
+</section>
+
+<!-- ================= 5 CABARAN AKHIR ================= -->
+<section class="page" id="cabaran" data-c="teal">
+ <span class="kick">Halaman 5</span>
+ <h2>Cabaran Akhir: Misi Editor Hebat</h2>
+ <div class="card" id="qIntro">
+  <h3>Arahan</h3>
+  <ol><li>Terdapat <b>10 soalan</b>: soalan 1 hingga 3 (ejaan), 4 hingga 6 (tanda baca), 7 hingga 9 (imbuhan) dan soalan 10 (gabungan).</li><li>Pilih <b>satu</b> jawapan bagi setiap soalan.</li><li>Baca maklum balas, kemudian tekan <b>Soalan seterusnya</b>.</li><li>Markah dikira secara automatik.</li></ol>
+  <button class="btn" id="qGo">Mula Cabaran</button>
+ </div>
+ <div class="card" id="qCard" hidden>
+  <div class="qhead"><div class="mascot" id="qKiki" data-mood="normal"></div><div><div class="row" style="gap:8px"><span class="label" id="qNo"></span><span class="aspect" id="qAsp"></span></div><h3 id="qText"></h3><div class="meter"><i id="qMeter"></i></div></div></div>
+  <div class="opts" id="qOpts"></div>
+  <p class="fb" id="qFb" aria-live="polite"></p>
+  <button class="btn" id="qNext" hidden>Soalan seterusnya</button>
+ </div>
+ <div class="card" id="qEnd" hidden>
+  <h3 id="qScore"></h3>
+  <div class="res" id="qRes"></div>
+  <h4>Rumusan prestasi</h4>
+  <p id="qSum"></p>
+  <h4>Cadangan untuk kamu</h4>
+  <div id="qRec"></div>
+  <p class="label">Nota untuk guru: Tahap Penguasaan yang dipaparkan ialah anggaran awal; penentuan sebenar dibuat oleh guru berdasarkan pelbagai bukti.</p>
+  <div class="row"><button class="btn" id="qAgain">Cuba lagi</button><a class="btn alt" data-go="refleksi">Teruskan ke Refleksi <svg class="i"><use href="#ic-arrow"/></svg></a></div>
+ </div>
+</section>
+
+<!-- ================= 6 REFLEKSI ================= -->
+<section class="page" id="refleksi" data-c="teal">
+ <span class="kick">Halaman 6</span>
+ <h2>Refleksi dan Penghargaan</h2>
+ <div class="grid">
+  <div class="skill" style="background:var(--mA)"><h3>Ejaan</h3><p>Saya menggunakan ejaan baku, mengeja "di" dan "ke" dengan betul, dan menggunakan huruf besar pada nama khas.</p></div>
+  <div class="skill" style="background:var(--mB)"><h3>Tanda Baca</h3><p>Saya meletakkan noktah, koma, tanda soal dan tanda seru mengikut jenis ayat.</p></div>
+  <div class="skill" style="background:var(--mC)"><h3>Imbuhan</h3><p>Saya memilih awalan, akhiran dan apitan yang sesuai, termasuk bentuk meN- yang betul.</p></div>
+ </div>
+ <p class="fig-cap">Rajah 9. Rumusan pembelajaran</p>
+ <div class="card">
+  <h3>Apakah yang telah saya kuasai?</h3>
+  <p>Pilih jawapan yang paling tepat tentang diri kamu.</p>
+  <div id="chk"></div>
+  <p class="fb" id="chkFb" aria-live="polite"></p>
+ </div>
+ <div class="card">
+  <h3>Semak dahulu sebelum hantar!</h3>
+  <p>Editor yang baik sentiasa menyemak tulisan sebelum menghantar tugasan kepada guru. Kesalahan kecil boleh mengubah maksud dan menjejaskan markah. Gunakan senarai semak ini setiap kali kamu menulis:</p>
+  <div class="steps">
+   <div><span class="num">1</span>Adakah ejaan setiap perkataan betul?</div>
+   <div><span class="num">2</span>Adakah ayat dimulakan dengan huruf besar?</div>
+   <div><span class="num">3</span>Adakah tanda baca di akhir ayat sesuai?</div>
+   <div><span class="num">4</span>Adakah imbuhan sesuai dengan maksud ayat?</div>
+  </div>
+ </div>
+ <div class="card">
+  <h3>Refleksi kendiri</h3>
+  <p>Lengkapkan ayat di bawah. Tulisan kamu kekal pada skrin ini sahaja dan tidak dihantar ke mana-mana.</p>
+  <label class="label" for="rf">Hari ini saya belajar bahawa ... Saya masih perlu berlatih ...</label>
+  <textarea id="rf" placeholder="Hari ini saya belajar bahawa..."></textarea>
+  <button class="btn" id="rfBtn">Semak refleksi saya</button>
+  <p class="fb" id="rfFb" aria-live="polite"></p>
+ </div>
+ <div class="card">
+  <h3>Sijil Penghargaan</h3>
+  <label class="label" for="nm">Tulis nama panggilan kamu (tidak disimpan):</label><br>
+  <input type="text" id="nm" maxlength="30">
+  <button class="btn alt" id="certBtn">Terima sijil</button>
+  <div class="cert" id="cert" hidden>
+   <svg width="64" height="64"><use href="#logo"/></svg>
+   <div class="label">SIJIL PENGHARGAAN</div>
+   <h3>Bengkel Editor Cilik</h3>
+   <p>Tahniah kepada</p>
+   <h1 id="cName" style="font-size:clamp(28px,5vw,42px);color:#c2410c"></h1>
+   <p>kerana berjaya menamatkan semua misi dan kini layak bergelar<br><b>EDITOR CILIK HEBAT</b>.</p>
+   <p style="font-family:Poppins;font-weight:600;color:var(--teal2)">"Ayat Tepat, Penulisan Hebat!"</p>
+  </div>
+  <div class="row" style="margin-top:12px"><a class="btn" data-go="utama">Kembali ke Laman Utama</a></div>
+ </div>
+</section>
+
+<!-- ================= 7 SUMBER ================= -->
+<section class="page" id="sumber" data-c="teal">
+ <span class="kick">Halaman 7</span>
+ <h2>Sumber dan Rujukan</h2>
+ <div class="g2">
+  <div class="card"><h3>Etika digital dan integriti akademik</h3><ul>
+   <li><b>Grafik:</b> logo, maskot Kiki, ikon, rajah dan animasi dilukis sendiri oleh pembangun menggunakan kod SVG dan CSS. Tiada imej pihak ketiga digunakan.</li>
+   <li><b>Audio:</b> dijana oleh ciri bacaan suara (Web Speech API) pada pelayar web pengguna; tiada rakaman pihak lain digunakan.</li>
+   <li><b>Fon:</b> Poppins dan Nunito daripada Google Fonts di bawah lesen SIL Open Font License.</li>
+   <li><b>Kandungan:</b> berpandukan DSKP dan Tatabahasa Dewan, ditulis semula dalam bahasa sendiri.</li>
+   <li><b>Pautan:</b> tiada pautan luar ke laman yang tidak selamat; tiada iklan.</li>
+  </ul></div>
+  <div class="card"><h3>Keselamatan, privasi dan inklusif</h3><ul>
+   <li>Tiada log masuk, tiada borang yang meminta maklumat peribadi.</li>
+   <li>Nama pada sijil dan refleksi kekal pada peranti murid sahaja dan hilang apabila halaman ditutup.</li>
+   <li>Saiz tulisan boleh dibesarkan, mod kontras tinggi dan audio disediakan untuk murid berkeperluan berbeza.</li>
+   <li>Istilah utama disertai padanan bahasa Cina sebagai sokongan murid SJKC.</li>
+   <li>Laman ditetapkan kepada akses terbuka (Sesiapa sahaja boleh melihat) untuk tujuan penilaian.</li>
+  </ul></div>
+ </div>
+ <div class="card"><h3>Reka bentuk pengajaran: Model ASSURE</h3>
+  <div class="scroll"><table>
+   <tr><th>Fasa</th><th>Bukti dalam produk</th></tr>
+   <tr><td>A: Analyze learners</td><td>Murid Tahun 4 SJKC mempelajari bahasa Melayu sebagai bahasa kedua; maka disediakan audio, padanan istilah bahasa Cina dan contoh visual sebelum dan selepas.</td></tr>
+   <tr><td>S: State objectives</td><td>Empat objektif boleh diukur yang selari dengan SP 3.3.2 (halaman Kenali Misi Anda).</td></tr>
+   <tr><td>S: Select methods, media and materials</td><td>Pembelajaran kendiri, berasaskan permainan dan berperingkat; teks, grafik, audio dan animasi.</td></tr>
+   <tr><td>U: Utilize media and materials</td><td>Alur lima langkah: Kenali Misi, Makmal, Zon Misi, Cabaran Akhir, Refleksi.</td></tr>
+   <tr><td>R: Require learner participation</td><td>Empat aktiviti klik dan pilih dengan mata, bintang dan tahap.</td></tr>
+   <tr><td>E: Evaluate and revise</td><td>Cabaran Akhir dengan markah automatik, analisis mengikut aspek, cadangan modul ulangan dan refleksi kendiri.</td></tr>
+  </table></div>
+ </div>
+ <div class="g2">
+  <div class="card"><h3>Prinsip Multimedia Mayer (2009)</h3><ul>
+   <li><b>Coherence:</b> tiada muzik latar atau hiasan yang tidak berkaitan.</li>
+   <li><b>Signaling:</b> kesalahan ditanda merah, pembetulan hijau, perkataan penting ditebalkan.</li>
+   <li><b>Redundancy:</b> audio boleh dipilih oleh murid dan tidak dimainkan serentak dengan teks panjang secara automatik.</li>
+   <li><b>Spatial contiguity:</b> rajah sebelum dan selepas diletakkan bersebelahan dengan nota.</li>
+   <li><b>Segmenting:</b> isi dipecahkan kepada tiga modul, langkah kecil dan animasi bingkai demi bingkai.</li>
+   <li><b>Modality:</b> animasi disertai narasi suara dan sari kata ringkas.</li>
+  </ul></div>
+  <div class="card"><h3>Prinsip reka letak CASPER</h3><ul>
+   <li><b>Contrast:</b> warna berbeza bagi setiap modul dan mod kontras tinggi.</li>
+   <li><b>Alignment:</b> semua kad disusun pada grid yang sama.</li>
+   <li><b>Simplicity:</b> satu fokus bagi setiap kad; ruang kosong yang mencukupi.</li>
+   <li><b>Proximity:</b> soalan, pilihan dan maklum balas dikumpulkan rapat.</li>
+   <li><b>Emphasis:</b> tajuk besar dan butang utama berwarna jingga atau teal.</li>
+   <li><b>Repetition:</b> bentuk kad, butang, nombor langkah dan ikon diulang secara konsisten.</li>
+  </ul></div>
+ </div>
+ <div class="card ref"><h3>Rujukan</h3>
+  <p>Kementerian Pendidikan Malaysia. (2018). <i>Kurikulum Standard Sekolah Rendah (Semakan 2017): Bahasa Melayu Sekolah Jenis Kebangsaan Tahun 4, dokumen standard kurikulum dan pentaksiran</i>. Bahagian Pembangunan Kurikulum.</p>
+  <p>Mayer, R. E. (2009). <i>Multimedia learning</i> (2nd ed.). Cambridge University Press.</p>
+  <p>Nik Safiah Karim, Farid M. Onn, Hashim Musa, &amp; Abdul Hamid Mahmood. (2015). <i>Tatabahasa Dewan</i> (Edisi ketiga). Dewan Bahasa dan Pustaka.</p>
+  <p>Smaldino, S. E., Lowther, D. L., Mims, C., &amp; Russell, J. D. (2019). <i>Instructional technology and media for learning</i> (12th ed.). Pearson.</p>
+  <p>Williams, R. (2015). <i>The non-designer's design book</i> (4th ed.). Peachpit Press.</p>
+ </div>
+</section>
+</main>
+<footer>Bengkel Editor Cilik · Dibangunkan oleh Mohamad Azam bin Mohamad Ismawi, PISMP Bahasa Melayu Pendidikan Rendah, IPG Kampus Sarawak · Semua grafik ialah karya asli</footer>
+
+<script>
+var MULA = "utama";
+var SOLO = false;
+var LAMAN = "https://sites.google.com/view/bengkeleditorcilik";
+var SLUG = {utama:"", misi:"/kenali-misi-anda", makmal:"/makmal-pembelajaran", zon:"/zon-misi-interaktif", cabaran:"/cabaran-akhir", refleksi:"/refleksi-dan-penghargaan", sumber:"/sumber-dan-rujukan"};
+{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+if(SOLO)document.body.classList.add('solo');
+
+/* ---------- maskot ---------- */
+function kiki(m){
+ const eye=m==='sad'?'<path d="M120 94 q10 8 20 0" stroke="#1f2a37" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M146 108 q-6 10 -2 18" stroke="#7cc4ff" stroke-width="5" fill="none" stroke-linecap="round"/>'
+ :m==='happy'?'<path d="M120 98 q10 -12 20 0" stroke="#1f2a37" stroke-width="5" fill="none" stroke-linecap="round"/>'
+ :'<circle cx="130" cy="94" r="10" fill="#fff"/><circle cx="132" cy="95" r="6" fill="#1f2a37"/><circle cx="134" cy="92" r="2" fill="#fff"/>';
+ return `<svg class="m" viewBox="0 0 300 300" role="img" aria-label="Maskot Kiki, kenyalang editor"><ellipse cx="150" cy="284" rx="90" ry="11" fill="#00000022"/>
+ <path d="M98 250 L84 285 L112 270Z" fill="#1f2a37"/><path d="M122 255 L118 290 L142 270Z" fill="#1f2a37"/>
+ <ellipse cx="140" cy="186" rx="78" ry="85" fill="#263241"/><ellipse cx="150" cy="200" rx="48" ry="62" fill="#fbfaf6"/>
+ <path d="M72 170 q-40 40 -10 95 q40 -10 50 -60z" fill="#18202b"/><circle cx="135" cy="102" r="52" fill="#263241"/>
+ <path d="M150 62 q40 -30 85 -8 q-20 18 -55 22z" fill="#f39a4a"/><path d="M168 90 q70 -2 105 30 q-55 10 -105 6z" fill="#f6c453"/><path d="M168 108 q60 6 100 12" stroke="#f39a4a" stroke-width="4" fill="none"/>
+ ${eye}<circle cx="112" cy="120" r="9" fill="#f08a8a" opacity=".55"/>
+ <path d="M96 64 q38 -22 80 -6 l-6 14 q-36 -12 -68 4z" fill="#0f8a7e"/><rect x="92" y="70" width="88" height="8" rx="4" fill="#0b6b62"/>
+ <g transform="rotate(-25 215 200)"><rect x="200" y="140" width="18" height="100" rx="6" fill="#c62828"/><path d="M200 240 l9 22 l9 -22z" fill="#ffe2a8"/><path d="M205 252 l4 10 l4 -10z" fill="#1f2a37"/></g>
+ <ellipse cx="200" cy="215" rx="16" ry="12" fill="#263241"/>
+ <rect x="104" y="150" width="62" height="18" rx="9" fill="#f39a4a"/><text x="135" y="164" font-size="12" text-anchor="middle" fill="#fff" font-family="Nunito,sans-serif" font-weight="800">EDITOR</text></svg>`;
+}
+function drawMascots(){$$('.mascot').forEach(m=>m.innerHTML=kiki(m.dataset.mood))}
+drawMascots();
+function setMood(el,m){el.dataset.mood=m;el.innerHTML=kiki(m)}
+
+/* ---------- audio ---------- */
+let VO=[];const loadV=()=>{try{VO=speechSynthesis.getVoices()}catch(e){}};loadV();try{speechSynthesis.onvoiceschanged=loadV}catch(e){}
+function speak(t){try{const s=window.speechSynthesis;if(!s)return;s.cancel();if(!VO.length)loadV();const u=new SpeechSynthesisUtterance(t);
+ const p=VO.find(x=>/^ms/i.test(x.lang))||VO.find(x=>/^id/i.test(x.lang));
+ if(p){u.voice=p;u.lang=p.lang}else u.lang='ms-MY';u.rate=.92;s.speak(u)}catch(e){}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-say]');if(b)speak(b.dataset.say)});
+
+/* ---------- kebolehcapaian ---------- */
+let fs=17;const setFs=()=>document.documentElement.style.setProperty('--fs',fs+'px');
+$('#fsUp').onclick=()=>{fs=Math.min(23,fs+2);setFs()};$('#fsDn').onclick=()=>{fs=Math.max(15,fs-2);setFs()};
+$('#hcBtn').onclick=e=>{const on=document.body.classList.toggle('hc');e.currentTarget.setAttribute('aria-pressed',on)};
+
+/* ---------- navigasi ---------- */
+$$('[data-go]').forEach(a=>{const id=a.dataset.go;if(SOLO){a.href=LAMAN+SLUG[id];a.target='_top'}else{a.href='#'+id}});
+function go(){
+ let id=(location.hash||'#'+MULA).slice(1);
+ if(SOLO&&!document.getElementById(id))id=MULA;
+ if(!document.getElementById(id)||!document.getElementById(id).classList.contains('page')){const el=document.getElementById(id);id=el?el.closest('section.page').id:MULA}
+ if(SOLO)id=MULA;
+ $$('section.page').forEach(s=>s.classList.toggle('show',s.id===id));
+ const c=document.getElementById(id).dataset.c;document.documentElement.style.setProperty('--sec','var(--'+c+')');
+ $$('#nav a').forEach(a=>a.classList.toggle('on',a.dataset.go===id));
+ window.scrollTo(0,0);
+}
+const setHH=()=>document.documentElement.style.setProperty('--hh',(matchMedia('(max-width:760px)').matches||SOLO?0:$('header').offsetHeight)+'px');
+setHH();addEventListener('resize',setHH);addEventListener('load',setHH);
+window.addEventListener('hashchange',go);
+$$('[data-anchor]').forEach(a=>a.addEventListener('click',()=>setTimeout(()=>{const t=document.getElementById(a.dataset.anchor);t&&t.scrollIntoView({behavior:'smooth'})},120)));
+
+/* ---------- makmal: tab ---------- */
+const labDone={};
+function showMod(t){$$('#labTabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));['A','B','C'].forEach(k=>$('#mod'+k).hidden=k!==t);$('#mod'+t).scrollIntoView({behavior:'smooth',block:'start'})}
+$('#labTabs').onclick=e=>{const b=e.target.closest('button');if(b)showMod(b.dataset.t)};
+$$('[data-next]').forEach(b=>b.onclick=()=>showMod(b.dataset.next));
+function labMark(k){labDone[k]=1;const n=['A','B','C'].filter(x=>labDone[x]).length;$('#labMeter').style.width=(n/3*100)+'%';$('#labTxt').textContent=n+' daripada 3 modul selesai'}
+
+/* ---------- animasi (pemain bingkai) ---------- */
+const TICK='<svg class="tick"><use href="#ic-tick"/></svg>';
+const ANIM={
+ A:[['Adik membeli <span class="t">sayor</span> di pasar.','Langkah 1: Baca ayat dengan perlahan dan teliti.'],
+    ['Adik membeli <span class="t hl">sayor</span> di pasar.','Langkah 2: Bulatkan perkataan yang meragukan, iaitu "sayor".'],
+    ['Adik membeli <span class="t st">sayor</span> <span class="nw">sayur</span> di pasar.','Langkah 3: Betulkan ejaan. Ejaan baku ialah "sayur".'],
+    ['Adik membeli <span class="nw">sayur</span> di pasar.'+TICK,'Langkah 4: Tulis semula ayat yang telah dimurnikan.']],
+ B:[['Wah cantiknya bunga itu.','Langkah 1: Kenal pasti jenis ayat. Ayat ini menunjukkan perasaan kagum, iaitu ayat seruan.'],
+    ['<span class="hl">Wah</span> cantiknya bunga itu<span class="hl">.</span>','Langkah 2: Perhatikan kata seru "Wah" dan tanda baca di akhir ayat.'],
+    ['Wah<span class="nw">,</span> cantiknya bunga itu<span class="st">.</span><span class="nw">!</span>','Langkah 3: Letakkan koma selepas "Wah" dan tukar noktah kepada tanda seru.'],
+    ['Wah, cantiknya bunga itu!'+TICK,'Langkah 4: Baca semula ayat seruan dengan intonasi yang betul.']],
+ C:[['Pak Ali <span class="t">mempotong</span> rumput.','Langkah 1: Baca ayat. Perkataan "mempotong" kelihatan janggal.'],
+    ['Pak Ali <span class="hl">meN- + potong</span> rumput.','Langkah 2: Cari kata dasar, iaitu "potong", dan imbuhannya, iaitu meN-.'],
+    ['Pak Ali <span class="t">mem</span><span class="st">p</span><span class="t">otong</span> rumput.','Langkah 3: Kata dasar bermula dengan huruf p. Awalan menjadi mem- dan huruf p digugurkan.'],
+    ['Pak Ali <span class="nw">memotong</span> rumput.'+TICK,'Langkah 4: Tulis semula ayat dengan imbuhan yang betul.']]
+};
+$$('[data-anim]').forEach(el=>{
+ const F=ANIM[el.dataset.anim];let i=0,timer=null,voice=true;
+ el.innerHTML=`<div class="screen" aria-live="polite"></div><div class="cap"></div><div class="ctrl"><button class="pl"><svg class="i"><use href="#ic-play"/></svg>Main</button><button class="rp"><svg class="i"><use href="#ic-redo"/></svg>Ulang</button><button class="vo" aria-pressed="true"><svg class="i"><use href="#ic-sound"/></svg>Narasi: Hidup</button><div class="dots">${F.map(()=>'<i></i>').join('')}</div></div>`;
+ const scr=el.querySelector('.screen'),cap=el.querySelector('.cap'),pl=el.querySelector('.pl');
+ const show=()=>{scr.innerHTML='<div>'+F[i][0]+'</div>';cap.textContent=F[i][1];el.querySelectorAll('.dots i').forEach((d,k)=>d.classList.toggle('on',k<=i));if(timer&&voice)speak(F[i][1])};
+ const stop=()=>{clearInterval(timer);timer=null;pl.innerHTML='<svg class="i"><use href="#ic-play"/></svg>Main'};
+ const play=()=>{if(i>=F.length-1)i=0;timer=setInterval(()=>{if(i<F.length-1){i++;show()}else stop()},5200);pl.innerHTML='<svg class="i"><use href="#ic-pause"/></svg>Jeda';show()};
+ pl.onclick=()=>timer?stop():play();
+ el.querySelector('.rp').onclick=()=>{stop();i=0;play()};
+ el.querySelector('.vo').onclick=e=>{voice=!voice;e.currentTarget.setAttribute('aria-pressed',voice);e.currentTarget.lastChild.textContent='Narasi: '+(voice?'Hidup':'Mati');if(!voice)try{speechSynthesis.cancel()}catch(x){}};
+ show();
+});
+
+/* ---------- aktiviti pengukuhan modul ---------- */
+const MINI={
+ A:[['Pilih ejaan yang betul: Ibu menggoreng ___ untuk sarapan.',['telur','telor','tlur'],'Ejaan baku ialah "telur".'],
+    ['Ayat manakah yang betul?',['Kami makan di kantin.','Kami makan dikantin.','Kami makan di-kantin.'],'"di" yang menunjukkan tempat dieja terpisah.'],
+    ['Pilih ejaan yang betul.',['kanak-kanak','kanak kanak','kanakkanak'],'Kata ganda ditulis dengan tanda sempang.']],
+ B:[['Tanda baca yang sesuai: Siapakah nama kamu ___',['?','.','!'],'Ayat tanya diakhiri dengan tanda soal.'],
+    ['Ayat manakah yang betul?',['Selepas mandi, adik memakai baju.','Selepas mandi adik, memakai baju.','Selepas, mandi adik memakai baju.'],'Koma diletakkan selepas keterangan di awal ayat.'],
+    ['Tanda baca yang sesuai: Aduh, sakitnya kaki saya ___',['!','?',','],'Ayat seruan diakhiri dengan tanda seru.']],
+ C:[['meN- + tulis = ?',['menulis','mentulis','metulis'],'Huruf t gugur; awalan menjadi men-.'],
+    ['Kita mesti menjaga ___ diri.',['kebersihan','bersihan','pembersihkan'],'Apitan ke-...-an membentuk kata nama: kebersihan.'],
+    ['Adik ___ di taman permainan.',['bermain','memain','permain'],'Awalan ber- digunakan: bermain.']]
+};
+$$('[data-mini]').forEach(el=>{
+ const k=el.dataset.mini,Q=MINI[k];let ans=0;
+ el.innerHTML=Q.map((q,i)=>`<div class="sent" style="line-height:1.6"><b>${i+1}.</b> ${q[0]}<div class="opts">${shuffle(q[1].slice()).map(o=>`<button data-i="${i}" data-v="${o}">${o}</button>`).join('')}</div><p class="fb"></p></div>`).join('')+'<p class="fb ok mres"></p>';
+ el.onclick=e=>{const b=e.target.closest('button[data-v]');if(!b)return;const box=b.parentElement;if(box.dataset.done)return;const q=Q[b.dataset.i];const f=box.nextElementSibling;
+  if(b.dataset.v===q[1][0]){b.classList.add('r');box.dataset.done=1;f.className='fb ok';f.textContent='Betul! '+q[2];ans++;if(ans===Q.length){el.querySelector('.mres').textContent='Syabas! Modul ini selesai. Teruskan ke modul seterusnya.';labMark(k)}}
+  else{b.classList.add('x');f.className='fb bad';f.textContent='Cuba lagi. Petunjuk: '+q[2]}};
+});
+
+/* ---------- mesin meN- ---------- */
+const KD=[['lukis','me','melukis',0,'Huruf l: awalan menjadi me-.'],['baca','mem','membaca',0,'Huruf b: awalan menjadi mem-.'],['pukul','mem','memukul',1,'Huruf p: awalan menjadi mem- dan huruf p digugurkan.'],['dengar','men','mendengar',0,'Huruf d: awalan menjadi men-.'],['tulis','men','menulis',1,'Huruf t: awalan menjadi men- dan huruf t digugurkan.'],['cuci','men','mencuci',0,'Huruf c: awalan menjadi men-.'],['ambil','meng','mengambil',0,'Huruf vokal a: awalan menjadi meng-.'],['gosok','meng','menggosok',0,'Huruf g: awalan menjadi meng-.'],['kutip','meng','mengutip',1,'Huruf k: awalan menjadi meng- dan huruf k digugurkan.'],['sapu','meny','menyapu',1,'Huruf s: awalan menjadi meny- dan huruf s digugurkan.']];
+$('#kd').innerHTML=KD.map((k,i)=>`<option value="${i}">${k[0]}</option>`).join('');
+$('#proses').onclick=()=>{const k=KD[$('#kd').value];$('#mA').textContent=k[1]+'-';$('#mB').innerHTML=k[3]?`<span class="st" style="color:#c62828;text-decoration:line-through">${k[0][0]}</span>${k[0].slice(1)}`:k[0];$('#mC').textContent='...';setTimeout(()=>{$('#mC').innerHTML=`<span class="nw" style="display:inline-block;animation:pop .6s">${k[2]}</span>`;$('#mR').textContent=k[4];speak(k[2])},700)};
+
+/* ---------- Zon Misi: skor ---------- */
+const ZS={1:[0,0],2:[0,0],3:[0,0],4:[0,0]};
+function zUpdate(){let t=0,m=0;for(const k in ZS){t+=ZS[k][0];m+=ZS[k][1]}$('#zTot').textContent=t;$('#zMax').textContent=m;const p=m?t/m:0;$('#zMeter').style.width=(p*100)+'%';
+ const lvl=p>=.85?'Editor Hebat':p>=.6?'Editor Muda':'Editor Pelatih';$('#zLvl').textContent=lvl;$('#zStars').innerHTML=stars(p>=.85?3:p>=.6?2:1)}
+function stars(n){return '<b>'+'★'.repeat(n)+'</b>'+'★'.repeat(3-n)}
+function actDone(k,got,max){ZS[k]=[got,max];const p=got/max;$(`[data-st="${k}"]`).innerHTML=stars(p>=.85?3:p>=.6?2:1);zUpdate();setMood($('#zKiki'),p>=.6?'happy':'sad')}
+
+/* ---------- enjin klik dan betulkan ---------- */
+function E(w,a,o,t){return{w,a,o,t}}
+function fixer(el,items,key,onDone){
+ let total=0,got=0,handled=0;
+ el.innerHTML=items.map((s,si)=>'<div class="sent">'+s.map((tk,ti)=>{if(typeof tk==='string')return tk.split(' ').filter(Boolean).map(x=>`<span class="w" role="button" data-ok="1" tabindex="0">${x}</span>`).join(' ');total++;return `<span class="w" role="button" tabindex="0" data-s="${si}" data-t="${ti}">${tk.w}</span>`}).join(' ')+'</div><div class="pk"></div>').join('')+`<p class="fb" aria-live="polite"></p><div class="label">Kesalahan dibetulkan: <span class="cnt">0</span> / ${total} · Mata: <span class="pts">0</span></div>`;
+ ZS[key]=[0,total];zUpdate();
+ const fb=el.querySelector('.fb');
+ const pickWord=w=>{
+  el.querySelectorAll('.pk').forEach(p=>p.innerHTML='');
+  if(w.dataset.ok){w.classList.remove('nope');void w.offsetWidth;w.classList.add('nope');fb.className='fb bad';fb.textContent='"'+w.textContent+'" sudah betul. Cari perkataan lain.';return}
+  const tk=items[w.dataset.s][w.dataset.t];
+  w.parentElement.nextElementSibling.innerHTML='<div class="picker"><b>Pilih yang betul:</b> '+shuffle(tk.o.slice()).map(o=>`<button data-o="${o.replace(/"/g,'&quot;')}" data-s="${w.dataset.s}" data-t="${w.dataset.t}">${o}</button>`).join('')+'</div>';
+  fb.className='fb';fb.textContent='';
+ };
+ el.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('w')&&!e.target.classList.contains('fixed')&&!e.target.classList.contains('shown')){e.preventDefault();pickWord(e.target)}});
+ el.addEventListener('click',e=>{
+  const w=e.target.closest('.w');if(w){if(!w.classList.contains('fixed')&&!w.classList.contains('shown'))pickWord(w);return}
+  const b=e.target.closest('[data-o]');if(!b)return;
+  const tk=items[b.dataset.s][b.dataset.t];const tw=el.querySelector(`.w[data-s="${b.dataset.s}"][data-t="${b.dataset.t}"]`);
+  handled++;tw.textContent=tk.a;b.closest('.pk').innerHTML='';
+  if(b.dataset.o===tk.a){tw.classList.add('fixed');got++;fb.className='fb ok';fb.textContent='Betul! '+tk.t}
+  else{tw.classList.add('shown');fb.className='fb bad';fb.textContent='Belum tepat. Jawapan yang betul ialah "'+tk.a+'". '+tk.t}
+  el.querySelector('.cnt').textContent=handled;el.querySelector('.pts').textContent=got;ZS[key]=[got,total];zUpdate();
+  if(handled===total){fb.textContent+='  Misi selesai! Mata kamu: '+got+' / '+total+'.';actDone(key,got,total);onDone&&onDone()}
+ });
+}
+
+fixer($('#fix1'),[
+ ['Ibu membeli',E('sayor','sayur',['sayur','sayor','sayoor'],'Ejaan baku ialah "sayur".'),'dan',E('telor','telur',['telur','telor','tlur'],'Ejaan baku ialah "telur".'),'di pasar.'],
+ ['Kami bermain',E('disekolah','di sekolah',['di sekolah','disekolah','di-sekolah'],'"di" yang menunjukkan tempat dieja terpisah.'),'pada waktu rehat.'],
+ ['Buku cerita itu',E('di baca','dibaca',['dibaca','di baca','di-baca'],'Awalan di- dieja rapat dengan kata kerja.'),'oleh adik.'],
+ [E('ali','Ali',['Ali','ali','ALI'],'Nama orang dimulakan dengan huruf besar.'),'tinggal di',E('kuching.','Kuching.',['Kuching.','kuching.','KUCHING.'],'Nama tempat dimulakan dengan huruf besar.')],
+ ['Kakak',E('pegi','pergi',['pergi','pegi','prgi'],'Ejaan baku ialah "pergi".'),'ke perpustakaan bersama',E('kawan kawannya.','kawan-kawannya.',['kawan-kawannya.','kawan kawannya.','kawankawannya.'],'Kata ganda ditulis dengan tanda sempang dan akhiran -nya dieja rapat.')]
+],1);
+
+/* aktiviti 2 */
+const TB=[
+ ['Siapakah nama guru kelas kamu',['?'],'Ayat tanya (ada perkataan "Siapakah") diakhiri dengan tanda soal.'],
+ ['Hore',[','],'kita menang',['!'],'Kata seru "Hore" diikuti koma; ayat seruan diakhiri dengan tanda seru.'],
+ ['Selepas makan',[','],'kami mencuci pinggan',['.'],'Koma selepas keterangan di awal ayat; ayat penyata diakhiri dengan noktah.'],
+ ['Mei Ling',[','],'tolong tutup pintu itu',['.','!'],'Koma selepas nama orang yang dipanggil; ayat perintah diakhiri dengan noktah atau tanda seru.'],
+ ['Di manakah kamu meletakkan beg itu',['?'],'Ayat tanya diakhiri dengan tanda soal.']
+];
+const SY=['_','.',',','?','!'];
+function tbRender(){$('#tbBox').innerHTML=TB.map((s,si)=>'<div class="sent">'+s.slice(0,-1).map((p,pi)=>typeof p==='string'?p:`<button class="slot" data-s="${si}" data-p="${pi}" aria-label="Pilih tanda baca">_</button>`).join('')+`<div class="why" id="tbw${si}"></div></div>`).join('');$('#tbFb').textContent='';$('#tbCek').disabled=false}
+tbRender();
+const tbMax=TB.reduce((n,s)=>n+s.filter(p=>Array.isArray(p)).length,0);ZS[2]=[0,tbMax];zUpdate();
+$('#tbBox').onclick=e=>{const b=e.target.closest('.slot');if(!b||$('#tbCek').disabled)return;b.classList.remove('r','x');b.textContent=SY[(SY.indexOf(b.textContent)+1)%SY.length]};
+$('#tbCek').onclick=()=>{let ok=0;$$('#tbBox .slot').forEach(b=>{const s=TB[b.dataset.s],ans=s[b.dataset.p],r=ans.includes(b.textContent);b.classList.toggle('r',r);b.classList.toggle('x',!r);if(r)ok++;else{b.textContent=ans[0];const w=$('#tbw'+b.dataset.s);w.textContent='Jawapan betul ditunjukkan. '+s[s.length-1]}});
+ $('#tbCek').disabled=true;const f=$('#tbFb');f.className='fb '+(ok===tbMax?'ok':'bad');f.textContent=ok===tbMax?'Hebat! Semua tanda baca betul. Mata: '+ok+' / '+tbMax:'Mata: '+ok+' / '+tbMax+'. Petak merah telah dibetulkan; baca penerangan di bawah ayat. Tekan "Cuba semula" untuk berlatih lagi.';actDone(2,ok,tbMax)};
+$('#tbReset').onclick=tbRender;
+
+/* aktiviti 3 */
+const IMB=[
+ ['Pak Ali','mempotong','rumput di halaman rumah.',['memotong','mempotong','menpotong'],'Kata dasar "potong" bermula dengan p: awalan menjadi mem- dan huruf p digugurkan.'],
+ ['Adik','mengosok','gigi sebelum tidur.',['menggosok','mengosok','megosok'],'Kata dasar "gosok" bermula dengan g: awalan menjadi meng- dan huruf g dikekalkan.'],
+ ['Ah Kow','mensiram','pokok bunga setiap pagi.',['menyiram','mensiram','menysiram'],'Kata dasar "siram" bermula dengan s: awalan menjadi meny- dan huruf s digugurkan.'],
+ ['Murid-murid','main','bola di padang.',['bermain','memain','permain'],'Ayat memerlukan kata kerja; awalan ber- membentuk "bermain".'],
+ ['Kita mesti menjaga','bersihan','kelas setiap hari.',['kebersihan','bersihan','pembersihkan'],'Apitan ke-...-an membentuk kata nama "kebersihan".']
+];
+let imbGot=0,imbDone=0;ZS[3]=[0,IMB.length];zUpdate();
+$('#imbBox').innerHTML=IMB.map((q,i)=>`<div class="sent" style="line-height:1.7"><b>${i+1}.</b> ${q[0]} <u style="text-decoration-color:var(--bad);text-decoration-thickness:3px">${q[1]}</u> ${q[2]}<div class="opts">${shuffle(q[3].slice()).map(o=>`<button data-i="${i}" data-v="${o}">${o}</button>`).join('')}</div><p class="fb"></p></div>`).join('');
+$('#imbBox').onclick=e=>{const b=e.target.closest('button[data-v]');if(!b)return;const box=b.parentElement;if(box.dataset.done)return;box.dataset.done=1;const q=IMB[b.dataset.i];const f=box.nextElementSibling;imbDone++;
+ box.querySelectorAll('button').forEach(x=>{if(x.dataset.v===q[3][0])x.classList.add('r')});
+ if(b.dataset.v===q[3][0]){imbGot++;f.className='fb ok';f.textContent='Tepat! '+q[4]}else{b.classList.add('x');f.className='fb bad';f.textContent='Jawapan betul ialah "'+q[3][0]+'". '+q[4]}
+ ZS[3]=[imbGot,IMB.length];zUpdate();if(imbDone===IMB.length)actDone(3,imbGot,IMB.length)};
+
+/* aktiviti 4 */
+fixer($('#fix4'),[
+ [E('pada','Pada',['Pada','pada','PADA'],'Awal ayat menggunakan huruf besar.'),'hari Ahad, Wei Jie sekeluarga',E('pegi','pergi',['pergi','pegi','prgi'],'Ejaan baku ialah "pergi".'),'berkelah',E('dipantai.','di pantai.',['di pantai.','dipantai.','di-pantai.'],'"di" yang menunjukkan tempat dieja terpisah.'),
+  'Ayah',E('bentang','membentang',['membentang','bentang','menbentang'],'Kata kerja aktif memerlukan awalan meN-: mem + bentang.'),'tikar di bawah pokok. Ibu',E('menpotong','memotong',['memotong','menpotong','mempotong'],'Huruf p gugur: mem + potong menjadi "memotong".'),'buah tembikai.',
+  'Wei Jie dan adiknya',E('main','bermain',['bermain','main','memain'],'Gunakan awalan ber-: "bermain".'),'bola.',E('"Wah','"Wah,',['"Wah,','"Wah','"Wah.'],'Kata seru diikuti tanda koma.'),'seronoknya!" kata Wei Jie. Mereka berasa sangat',E('gembira?','gembira.',['gembira.','gembira?','gembira,'],'Ayat penyata diakhiri dengan noktah.')]
+],4,()=>{$('#murni').hidden=false});
+
+/* ---------- Cabaran Akhir ---------- */
+const ASP={E:['Ejaan','var(--mA)','A','Detektif Ejaan'],T:['Tanda baca','var(--mB)','B','Penjaga Tanda Baca'],I:['Imbuhan','var(--mC)','C','Pakar Imbuhan'],G:['Gabungan','var(--teal)','','Zon Misi Interaktif']};
+const Q=[
+ ['E','Pilih ejaan yang betul: Ibu menggoreng ___ untuk sarapan.',['telur','telor','tlur'],'Ejaan baku ialah "telur".'],
+ ['E','Ayat manakah yang betul ejaannya?',['Kami belajar di sekolah.','Kami belajar disekolah.','Kami belajar di-sekolah.'],'"di" yang menunjukkan tempat dieja terpisah daripada kata nama.'],
+ ['E','Ayat manakah yang ejaannya betul sepenuhnya?',['Pada hari Sabtu, Mei Ling pergi ke Kuching.','Pada hari sabtu, Mei Ling pegi ke Kuching.','Pada hari Sabtu, mei ling pergi kekuching.'],'Nama hari, orang dan tempat menggunakan huruf besar; "pergi" ialah ejaan baku; "ke" dieja terpisah.'],
+ ['T','Tanda baca yang sesuai: Bilakah kamu akan pulang ___',['?','.','!'],'Ayat tanya diakhiri dengan tanda soal.'],
+ ['T','Ayat manakah yang menggunakan tanda baca dengan betul?',['Wah, besarnya kapal itu!','Wah besarnya kapal itu.','Wah, besarnya kapal itu?'],'Kata seru diikuti koma dan ayat seruan diakhiri dengan tanda seru.'],
+ ['T','Ayat manakah yang menggunakan tanda baca dengan betul?',['Ah Meng, tolong angkat kerusi itu.','Ah Meng tolong angkat kerusi itu?','Ah Meng. Tolong, angkat kerusi itu'],'Koma selepas nama yang dipanggil dan noktah di akhir ayat perintah.'],
+ ['I','meN- + sapu = ?',['menyapu','mensapu','menysapu'],'Huruf s gugur dan awalan menjadi meny-.'],
+ ['I','Pilih perkataan yang tepat: Pak Ali sedang ___ rumput.',['memotong','mempotong','menpotong'],'Huruf p gugur: mem + potong menjadi "memotong".'],
+ ['I','Pilih perkataan yang tepat: Kita mesti menjaga ___ kelas setiap hari.',['kebersihan','bersihan','pembersihkan'],'Apitan ke-...-an membentuk kata nama "kebersihan".'],
+ ['G','Ayat manakah yang telah dimurnikan sepenuhnya?',['Selepas makan, Wei Jie membasuh pinggan di dapur.','selepas makan Wei Jie basuh pinggan didapur.','Selepas makan, Wei Jie membasuh pinggan didapur?'],'Huruf besar di awal ayat, koma selepas keterangan, imbuhan meN- pada "membasuh", "di" dieja terpisah dan noktah di akhir ayat.']
+];
+let qi=0,sc=[];
+function qShow(){const q=Q[qi],a=ASP[q[0]];$('#qNo').textContent='Soalan '+(qi+1)+' daripada '+Q.length;$('#qAsp').textContent=a[0];$('#qAsp').style.background=a[1];$('#qText').textContent=q[1];$('#qMeter').style.width=(qi/Q.length*100)+'%';
+ $('#qOpts').innerHTML=shuffle(q[2].slice()).map(o=>`<button data-v="${o.replace(/"/g,'&quot;')}">${o}</button>`).join('');$('#qFb').textContent='';$('#qNext').hidden=true;setMood($('#qKiki'),'normal')}
+$('#qGo').onclick=()=>{qi=0;sc=[];$('#qIntro').hidden=true;$('#qEnd').hidden=true;$('#qCard').hidden=false;qShow()};
+$('#qOpts').onclick=e=>{const b=e.target.closest('button');if(!b||!$('#qNext').hidden)return;const q=Q[qi],r=b.dataset.v===q[2][0];sc[qi]=r?1:0;
+ $$('#qOpts button').forEach(x=>{if(x.dataset.v===q[2][0])x.classList.add('r')});if(!r)b.classList.add('x');
+ $('#qFb').className='fb '+(r?'ok':'bad');$('#qFb').textContent=(r?'Tepat sekali! ':'Hampir! Jawapan betul ialah "'+q[2][0]+'". ')+q[3];
+ setMood($('#qKiki'),r?'happy':'sad');$('#qNext').hidden=false;$('#qNext').textContent=qi===Q.length-1?'Lihat keputusan':'Soalan seterusnya';$('#qNext').focus()};
+$('#qNext').onclick=()=>{qi++;if(qi<Q.length)qShow();else qEnd()};
+function qEnd(){$('#qCard').hidden=true;$('#qEnd').hidden=false;
+ const tot=sc.reduce((a,b)=>a+b,0),by={E:0,T:0,I:0,G:0},mx={E:0,T:0,I:0,G:0};Q.forEach((q,i)=>{by[q[0]]+=sc[i];mx[q[0]]++});
+ const tp=tot===10?6:tot===9?5:tot>=7?4:tot>=5?3:tot>=3?2:1;
+ $('#qScore').textContent='Markah kamu: '+tot+' / 10';
+ $('#qRes').innerHTML=Object.keys(by).map(k=>`<div style="border-color:${ASP[k][1]}"><span class="label">${ASP[k][0]}</span><b>${by[k]} / ${mx[k]}</b></div>`).join('')+`<div><span class="label">Anggaran Tahap Penguasaan</span><b>TP${tp}</b></div>`;
+ $('#qSum').textContent=tot>=9?'Cemerlang! Kamu sangat teliti dan sudah bersedia menjadi Editor Cilik Hebat.':tot>=7?'Bagus! Kamu menguasai kebanyakan kemahiran mengedit. Sedikit latihan lagi akan menjadikan kamu lebih hebat.':tot>=5?'Baik. Kamu sudah memahami asas mengedit ayat, tetapi perlu berlatih lagi pada aspek yang lemah.':'Teruskan usaha! Ulang kaji modul di Makmal Pembelajaran, kemudian cuba lagi.';
+ const weak=['E','T','I'].filter(k=>by[k]<mx[k]);
+ $('#qRec').innerHTML=weak.length?weak.map(k=>`<p>Kamu tersilap dalam aspek <b>${ASP[k][0]}</b>. Ulang kaji <b>Modul ${ASP[k][2]}: ${ASP[k][3]}</b> di <a data-go="makmal" href="${SOLO?LAMAN+SLUG.makmal:'#makmal'}" ${SOLO?'target="_top"':''}>Makmal Pembelajaran</a>.</p>`).join('')+(by.G?'':'<p>Cuba <b>Aktiviti 4: Cabaran Editor Profesional</b> untuk berlatih menggabungkan ketiga-tiga aspek.</p>'):'<p>Tiada modul perlu diulang. Teruskan ke halaman Refleksi dan terima sijil kamu!</p>';
+ speak('Tahniah! Markah kamu '+tot+' daripada 10.')}
+$('#qAgain').onclick=()=>$('#qGo').click();
+
+/* ---------- Refleksi ---------- */
+const CHK=['Saya boleh mengenal pasti kesalahan ejaan dalam ayat.','Saya boleh membetulkan tanda baca yang tidak tepat.','Saya boleh membetulkan imbuhan yang salah.','Saya boleh memurnikan ayat menjadi ayat yang gramatis.'];
+const ck={};
+$('#chk').innerHTML=CHK.map((c,i)=>`<div class="chk"><span>${c}</span><div class="seg" data-i="${i}"><button data-v="2">Sudah kuasai</button><button data-v="1">Perlu latihan</button></div></div>`).join('');
+$('#chk').onclick=e=>{const b=e.target.closest('button');if(!b)return;const s=b.parentElement;s.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));ck[s.dataset.i]=+b.dataset.v;
+ if(Object.keys(ck).length===CHK.length){const need=Object.keys(ck).filter(k=>ck[k]===1);$('#chkFb').className='fb ok';$('#chkFb').textContent=need.length?'Terima kasih kerana jujur. Ulang kaji bahagian yang perlu latihan di Makmal Pembelajaran.':'Hebat! Kamu yakin dengan semua kemahiran. Teruskan menyemak setiap tulisan kamu.'}};
+$('#rfBtn').onclick=()=>{const t=$('#rf').value.trim();const f=$('#rfFb');if(t.split(/\s+/).length<6){f.className='fb bad';f.textContent='Tulis sekurang-kurangnya satu ayat lengkap tentang apa yang kamu pelajari.';return}
+ const issues=[];if(!/^[A-Z]/.test(t))issues.push('mulakan ayat dengan huruf besar');if(!/[.!?]$/.test(t))issues.push('akhiri ayat dengan tanda baca');if(/\b(pegi|takde|ambik|sayor|telor)\b/i.test(t))issues.push('semak ejaan tidak baku');
+ f.className='fb '+(issues.length?'bad':'ok');f.textContent=issues.length?'Editor cilik, semak semula: '+issues.join(', ')+'.':'Refleksi yang baik! Ayat kamu dimulakan dengan huruf besar dan diakhiri dengan tanda baca.'};
+$('#certBtn').onclick=()=>{const c=$('#cert');$('#cName').textContent=$('#nm').value.trim()||'Editor Cilik';c.hidden=false;c.querySelectorAll('.conf').forEach(x=>x.remove());
+ const col=['#0f8a7e','#f39a4a','#2f7fd6','#8754d6','#d9536f'];for(let i=0;i<30;i++){const d=document.createElement('i');d.className='conf';d.style.left=Math.random()*100+'%';d.style.background=col[i%5];d.style.animationDelay=Math.random()*.8+'s';c.appendChild(d)}
+ speak('Tahniah, '+$('#cName').textContent+'! Ayat tepat, penulisan hebat!')};
+
+zUpdate();go();
+}
+</script>
+</body>
+</html>
